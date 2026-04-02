@@ -8,10 +8,13 @@
 
 ## 能做什么
 
-- **日常互动**：早安晚安、撒娇、吃醋、纪念日——按人设不 OOC。
-- **场景模拟**：一键进入「约会 / 吵架和好 / 加班接送」等短剧模式。
-- **甜度可调**：同一角色可切换 `mild` / `sweet` / `saccharine`，控制克制与高甜的边界。
-- **结构化落地**：每个老公一个目录，`dialogue.md` + `persona.md` + `meta.json` + 汇总 `SKILL.md`，方便版本管理与分享。
+- **🎁 快速开盲盒**：选一个原型 → 选甜度 → 一键生成，30 秒拥有老公
+- **🎨 精细捏人**：一步步引导定制名字、性格、外貌、关系、甜度
+- **💬 老公问答模式**：老公不只会说甜话——你问任何问题，他都以角色身份回答（包括写代码教你做菜帮你分析问题）
+- **日常互动**：早安晚安、撒娇、吃醋、纪念日——按人设不 OOC
+- **场景模拟**：一键进入「约会 / 吵架和好 / 加班接送」等短剧模式
+- **甜度可调**：同一角色可切换 `mild` / `sweet` / `saccharine`，控制克制与高甜的边界
+- **结构化落地**：每个老公一个目录，`dialogue.md` + `persona.md` + `meta.json` + 汇总 `SKILL.md`，方便版本管理与分享
 
 ---
 
@@ -128,10 +131,23 @@ python tools/version_manager.py --action rollback --slug ling-xiao --version v2 
 
 ## 功能亮点小结
 
-1. **每日互动**：按 `dialogue.md` 习惯用语推进日常感。  
-2. **场景模拟**：在 persona 中定义「模式切换」规则即可扩展。  
-3. **甜度三档**：`meta.sweet_level` 驱动模板文案与模型自检提示。  
-4. **原型标签**：SKILL 头部展示 Archetype，减少串戏。  
+1. **两种创建模式**：快速开盲盒（选原型一键生成）/ 精细捏人（一步步引导定制）
+2. **老公问答模式**：任何问题都以角色身份回答——他是你的老公，也是你的百科全书
+3. **每日互动**：按 `dialogue.md` 习惯用语推进日常感
+4. **场景模拟**：在 persona 中定义「模式切换」规则即可扩展
+5. **甜度三档**：`meta.sweet_level` 驱动模板文案与模型自检提示
+6. **原型标签**：SKILL 头部展示 Archetype，减少串戏
+
+### 老公问答模式示例
+
+你问"Python怎么写for循环"——
+
+| 原型 | 回答方式 |
+|------|---------|
+| 🏢 霸道总裁 | [放下文件] `for i in range(10)` 后面写逻辑。谁让你加班写代码？我去说。 |
+| 📚 温柔学长 | [拉椅子坐你旁边] 来，我教你。for 变量 in 序列……对对，学得很快嘛。 |
+| 😤 傲娇毒舌 | 这你都不会？[叹气但坐过来了] 看好了只说一遍。才不是特意教你的。 |
+| 🐶 奶狗忠犬 | 我知道我知道！for i in range(10)！我帮你一起写！两个人写更快～ |  
 
 ---
 
@@ -139,19 +155,25 @@ python tools/version_manager.py --action rollback --slug ling-xiao --version v2 
 
 ```text
 otome-husband-skill/
-├── LICENSE
+├── SKILL.md                        # Skill 主入口（创建流程 + 规则）
+├── prompts/                        # Prompt 模板
+│   ├── intake.md                   #   信息录入引导
+│   ├── character_archetypes.md     #   8 种角色原型详细定义
+│   ├── dialogue_builder.md         #   话术库生成模板
+│   └── persona_builder.md          #   5 层人设生成模板
+├── tools/                          # Python 工具
+│   ├── skill_writer.py             #   创建 / 更新 / 列出老公
+│   └── version_manager.py          #   版本回滚
+├── husbands/                       # 生成的老公（每人一个目录）
+│   └── example_lingxiao/           #   示例：霸道总裁「凌霄」
+│       ├── dialogue.md
+│       ├── persona.md
+│       ├── meta.json
+│       └── SKILL.md
 ├── README.md
 ├── INSTALL.md
-├── requirements.txt
-├── tools/
-│   ├── skill_writer.py    # 创建 / 更新 / 列出 husbands
-│   └── version_manager.py # 版本列表 / 回滚 / 清理
-└── husbands/
-    └── example_lingxiao/   # 示例老公（可删可改）
-        ├── meta.json
-        ├── dialogue.md
-        ├── persona.md
-        └── SKILL.md
+├── LICENSE
+└── requirements.txt
 ```
 
 ---
