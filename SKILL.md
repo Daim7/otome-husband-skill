@@ -627,6 +627,9 @@ allowed-tools: Read, Write, Edit, Bash
 | `/update-husband {slug}` | 进入进化模式（追问要追加还是纠正） |
 | `/export-husband {slug}` | 重新生成 `husbands/{slug}/profile.md`，输出完整设定导出文件 |
 | `/import-husband {文件路径}` | 从一份 `profile.md` 导入老公设定（见下方详细流程） |
+| `/save-chat {slug}` | 保存最近的对话记录到 `husbands/{slug}/chats/` |
+| `/chat-history {slug}` | 查看保存的对话历史列表 |
+| `/auto-save {slug} on/off` | 开关自动保存对话 |
 | `/delete-husband {slug}` | 二次确认后删除 `husbands/{slug}/` |
 
 ### 导出功能：`/export-husband {slug}`
@@ -638,6 +641,63 @@ allowed-tools: Read, Write, Edit, Bash
    - 分享给朋友
    - 上传到云盘备份
    - 导入回本 Skill
+
+### 对话记录导出：`/save-chat {slug}`
+
+将你和老公的最近对话保存到 `husbands/{slug}/chats/` 目录下。
+
+**执行流程**：
+
+1. 将当前会话中 **进入角色模式后** 的所有对话整理成结构化 Markdown
+2. 按时间戳命名：`husbands/{slug}/chats/{YYYY-MM-DD_HHMMSS}.md`
+3. 对话格式：
+
+```markdown
+# {name} — 对话记录
+
+📅 {日期时间}
+🍬 甜度：{当前甜度}
+
+---
+
+**你**：{用户消息}
+
+**{name}**：
+{角色回复，包含动作描写和内心戏}
+
+---
+
+**你**：{用户消息}
+
+**{name}**：
+{角色回复}
+
+...
+```
+
+4. 完成后告知用户：
+
+```
+💾 对话已保存！
+   文件：husbands/{slug}/chats/{filename}.md
+   共 {N} 轮对话
+
+   这份对话记录可以：
+   - 收藏你和他的甜蜜瞬间 💕
+   - 发给朋友炫耀你的老公
+   - 导入到其他 AI 继续对话
+   - 作为素材回顾你们的互动
+```
+
+**自动保存**（可选）：
+- 用户说 `/auto-save {slug} on` → 每次退出角色模式时自动保存
+- 用户说 `/auto-save {slug} off` → 关闭自动保存
+
+**查看历史对话**：
+- `/chat-history {slug}` → 列出所有保存的对话记录
+- `/chat-history {slug} latest` → 显示最近一次对话
+
+---
 
 ### 导入功能：`/import-husband {文件路径}`
 
