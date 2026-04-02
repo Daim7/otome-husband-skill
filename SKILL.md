@@ -514,7 +514,51 @@ allowed-tools: Read, Write, Edit, Bash
 - `/sweet-level {slug} mild|sweet|saccharine` — 见主 Skill 说明
 ```
 
-**6. 生成完整设定导出文件 `husbands/{slug}/profile.md`（Write）**
+**6. 生成角色形象（可选，推荐！）**
+
+如果运行环境支持图片生成（DALL-E、Midjourney 等），为老公生成一张角色立绘/头像。
+
+**生成规则**：
+
+- **默认风格**：乙女游戏 / 日系画风立绘
+  - 参考画风：恋与制作人、光与夜之恋、未定事件簿等主流乙女游戏
+  - 风格关键词：精致五官、偏写实的日系画风、柔光打光、半身或全身立绘
+
+- **生成 Prompt 构建**：
+  基于 `persona.md` 中的外貌设定自动构建：
+  ```
+  乙女游戏角色立绘，{年龄}岁男性，{发色}{发型}，{瞳色}眼睛，
+  {身高}，{服装描述}，{气质关键词}，
+  精致五官，日系半写实画风，柔光，上半身，高品质
+  ```
+
+- **用户自定义形象**：
+  - 用户说"用这张照片的风格"→ 参考用户提供的照片风格生成
+  - 用户说"我想要写实风格"→ 切换到写实人像风格
+  - 用户说"用二次元风格"→ 使用纯二次元画风
+  - 用户说"不需要图片"→ 跳过此步
+
+- **图片保存**：`husbands/{slug}/avatar.png`
+- **使用场景**：
+  - 在 `profile.md` 导出时作为角色头像
+  - 在对话中作为角色形象参考
+  - 用户可以随时用 `/regenerate-avatar {slug}` 重新生成
+
+**询问用户**：
+```
+要为 {name} 生成一张角色立绘吗？
+
+  🎨 [A] 生成！用乙女游戏画风（推荐）
+  📷 [B] 我有参考图，用我的图风格生成
+  ✏️ [C] 我想指定画风（写实/二次元/其他）
+  ⏭️ [D] 跳过，以后再说
+
+选哪个？
+```
+
+---
+
+**7. 生成完整设定导出文件 `husbands/{slug}/profile.md`（Write）**
 
 这是一份**自包含的完整设定文档**，可以独立使用、分享给朋友、或迁移到其他平台。
 
@@ -630,6 +674,7 @@ allowed-tools: Read, Write, Edit, Bash
 | `/save-chat {slug}` | 保存最近的对话记录到 `husbands/{slug}/chats/` |
 | `/chat-history {slug}` | 查看保存的对话历史列表 |
 | `/auto-save {slug} on/off` | 开关自动保存对话 |
+| `/regenerate-avatar {slug}` | 重新生成角色立绘 |
 | `/delete-husband {slug}` | 二次确认后删除 `husbands/{slug}/` |
 
 ### 导出功能：`/export-husband {slug}`
