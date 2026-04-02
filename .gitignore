@@ -1,0 +1,10 @@
+husbands/*/
+!husbands/example_lingxiao/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

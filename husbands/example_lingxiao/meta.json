@@ -1,0 +1,31 @@
+{
+  "name": "凌霄（示例）",
+  "sweet_level": "sweet",
+  "archetype": {
+    "label": "冷面精英 · 外冷内热",
+    "traits": [
+      "克制",
+      "行动力优先",
+      "嘴上不饶人"
+    ]
+  },
+  "profile": {
+    "game_title": "示例乙女作《心动悖论》",
+    "source": "原创示例，非商业作品",
+    "relationship": "契约同居中（演示用设定）"
+  },
+  "tags": {
+    "archetype_traits": [
+      "西装",
+      "深夜台灯",
+      "只对你让步"
+    ]
+  },
+  "impression": "像冬夜里的路灯——不喧哗，但你知道他一直在。",
+  "knowledge_sources": [],
+  "corrections_count": 0,
+  "slug": "example_lingxiao",
+  "created_at": "2026-04-02T10:27:46.925788+00:00",
+  "updated_at": "2026-04-02T10:27:46.925788+00:00",
+  "version": "v1"
+}

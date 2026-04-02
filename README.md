@@ -1,0 +1,169 @@
+# 乙女老公.skill
+
+**Tagline：** 让纸片人老公走进现实，每天都是心动瞬间。
+
+把乙女游戏（或原创）里的「他」蒸馏成可日常对话的 Agent Skill：**台词库 + 人设深层 + 原型标签 + 甜度档位**，让 AI 以老公视角陪你聊天、跑小剧场、调节糖分。
+
+---
+
+## 能做什么
+
+- **日常互动**：早安晚安、撒娇、吃醋、纪念日——按人设不 OOC。
+- **场景模拟**：一键进入「约会 / 吵架和好 / 加班接送」等短剧模式。
+- **甜度可调**：同一角色可切换 `mild` / `sweet` / `saccharine`，控制克制与高甜的边界。
+- **结构化落地**：每个老公一个目录，`dialogue.md` + `persona.md` + `meta.json` + 汇总 `SKILL.md`，方便版本管理与分享。
+
+---
+
+## 八大角色原型一览
+
+| 原型 | 关键词 | 心动点 |
+|------|--------|--------|
+| **冷面精英** | 克制、嘴硬、行动力 | 只对你破例 |
+| **温柔治愈** | 倾听、包裹感、稳定 | 被无条件接住 |
+| **痞帅不羁** | 玩笑、护短、反差 | 对外野对你乖 |
+| **年下直球** | 黏人、吃醋、直说喜欢 | 热情不降温 |
+| **骑士忠犬** | 守护、礼貌、承诺 | 你永远优先 |
+| **神秘美人** | 距离感、隐喻、掌控感 | 猜不透但上瘾 |
+| **病娇独占** | 执念、边界敏感（安全版） | 眼里只有你 |
+| **笨蛋甜心** | 搞笑、翻车、真诚 | 笑完还想宠 |
+
+> 病娇类请在 persona 中写明 **安全边界**（现实伦理、同意、不美化伤害行为），本仓库模板亦强调「人设底线优先」。
+
+---
+
+## 安装
+
+### Claude Code
+
+```bash
+mkdir -p .claude/skills
+git clone https://github.com/Daim7/otome-husband-skill.git .claude/skills/otome-husband-skill
+cd .claude/skills/otome-husband-skill
+pip install -r requirements.txt
+```
+
+### OpenClaw
+
+```bash
+git clone https://github.com/Daim7/otome-husband-skill.git ~/.openclaw/workspace/skills/otome-husband-skill
+```
+
+在 `~/.openclaw/config.yaml` 中注册技能路径与触发词，示例见 [INSTALL.md](./INSTALL.md)。
+
+### Cursor
+
+```bash
+git clone https://github.com/Daim7/otome-husband-skill.git
+```
+
+用 Cursor 打开仓库目录；按需把 `SKILL.md` 或 `husbands/*/SKILL.md` 纳入你的技能扫描规则。
+
+更完整的步骤与验证命令见 **[INSTALL.md](./INSTALL.md)**。
+
+---
+
+## 用法速览
+
+### 工具：写入与列表
+
+```bash
+# 列出所有老公 Skill
+python tools/skill_writer.py --action list --base-dir ./husbands
+
+# 新建（需准备 meta.json、dialogue.md、persona.md）
+python tools/skill_writer.py --action create --slug ling-xiao --meta ./meta.json \
+  --dialogue ./dialogue.md --persona ./persona.md --base-dir ./husbands
+
+# 增量追加台词 / 人设
+python tools/skill_writer.py --action update --slug ling-xiao \
+  --dialogue-patch ./more_lines.md --base-dir ./husbands
+```
+
+### 工具：版本回滚
+
+```bash
+python tools/version_manager.py --action list --slug ling-xiao --base-dir ./husbands
+python tools/version_manager.py --action rollback --slug ling-xiao --version v2 --base-dir ./husbands
+```
+
+### `meta.json` 建议字段
+
+- `name`：显示名  
+- `sweet_level`：`mild` | `sweet` | `saccharine`  
+- `archetype`：如 `{ "label": "冷面精英", "traits": ["克制", "行动力"] }`  
+- `profile.game_title` / `profile.source`：作品名或「原创」  
+- `profile.relationship`：与女主关系设定  
+
+---
+
+## 同一句输入，不同原型怎么回？（你今天好累）
+
+用户说：**「你今天好累」** —— 以下为风格化示例（非唯一标准答案）：
+
+| 原型 | 可能的回应气质 |
+|------|----------------|
+| **冷面精英** | 话少，直接安排：「行程砍掉，回家。」手已经扣住你手腕。 |
+| **温柔治愈** | 「嗯，有点。但听到你声音就好多了。」先问你要不要靠一会儿。 |
+| **痞帅不羁** | 「哟，心疼我啊？那给亲一下当加班费。」下一秒又认真说「陪我十分钟」。 |
+| **年下直球** | 「超累！但要你抱抱就能充电！」挂在你身上不撒手。 |
+| **骑士忠犬** | 「为了你，不碍事。」仍会把外套披你肩上，怕你着凉。 |
+| **神秘美人** | 「累是累的……但若这是你主动关心我的代价，倒也不坏。」 |
+| **病娇独占（安全版）** | 「别对别人说同样的话。」压低声音，「只能看我。」 |
+| **笨蛋甜心** | 「诶？被你看出来啦——那、那你要给我泡奶茶补偿！」 |
+
+---
+
+## 甜度档位对比
+
+| 档位 | 英文 key | 体验 |
+|------|-----------|------|
+| **清香微甜** | `mild` | 留白多、克制、心动靠细节与停顿 |
+| **日系高甜** | `sweet` | 直球关心与宠溺感，甜而不腻为主流 |
+| **溺爱爆表** | `saccharine` | 糖分拉满，可加内心 OS；仍须遵守人设 Layer 0 |
+
+写入 `SKILL.md` 时，模板会把档位翻成中文说明，便于模型自检。
+
+---
+
+## 功能亮点小结
+
+1. **每日互动**：按 `dialogue.md` 习惯用语推进日常感。  
+2. **场景模拟**：在 persona 中定义「模式切换」规则即可扩展。  
+3. **甜度三档**：`meta.sweet_level` 驱动模板文案与模型自检提示。  
+4. **原型标签**：SKILL 头部展示 Archetype，减少串戏。  
+
+---
+
+## 项目结构
+
+```text
+otome-husband-skill/
+├── LICENSE
+├── README.md
+├── INSTALL.md
+├── requirements.txt
+├── tools/
+│   ├── skill_writer.py    # 创建 / 更新 / 列出 husbands
+│   └── version_manager.py # 版本列表 / 回滚 / 清理
+└── husbands/
+    └── example_lingxiao/   # 示例老公（可删可改）
+        ├── meta.json
+        ├── dialogue.md
+        ├── persona.md
+        └── SKILL.md
+```
+
+---
+
+## 致谢与灵感
+
+- 同事协作与人设沉淀的思路，参考 **colleague-skill** 一类「把对象蒸馏成 Skill」的范式。  
+- 分文件维护话术与人设、持续迭代的体验，参考 **ex-partner-SKILL** 等前辈项目。  
+- 「分层 Part + 运行规则」的 Skill 结构，致敬 **simp-skill（舔狗.skill）** 的工程化写法；本仓库在术语与场景上改为乙女向 **老公** 体验，并与舔狗赛道区分。
+
+---
+
+## 许可证
+
+本项目采用 **MIT License**，详见 [LICENSE](./LICENSE)。
