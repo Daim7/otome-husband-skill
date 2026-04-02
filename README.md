@@ -15,7 +15,8 @@
 - **日常互动**：早安晚安、撒娇、吃醋、纪念日——按人设不 OOC
 - **场景模拟**：一键进入「约会 / 吵架和好 / 加班接送」等短剧模式
 - **甜度可调**：同一角色可切换 `mild` / `sweet` / `saccharine`，控制克制与高甜的边界
-- **结构化落地**：每个老公一个目录，`dialogue.md` + `persona.md` + `meta.json` + 汇总 `SKILL.md`，方便版本管理与分享
+- **设定导出/迁移**：一键导出完整设定到 `profile.md`，可迁移到 ChatGPT/Claude/其他平台，也可分享给朋友
+- **结构化落地**：每个老公一个目录，`dialogue.md` + `persona.md` + `meta.json` + `profile.md` + 汇总 `SKILL.md`，方便版本管理与分享
 
 ---
 

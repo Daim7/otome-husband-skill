@@ -514,17 +514,81 @@ allowed-tools: Read, Write, Edit, Bash
 - `/sweet-level {slug} mild|sweet|saccharine` — 见主 Skill 说明
 ```
 
-**完成后告诉用户**（可带一点玩梗）：
+**6. 生成完整设定导出文件 `husbands/{slug}/profile.md`（Write）**
+
+这是一份**自包含的完整设定文档**，可以独立使用、分享给朋友、或迁移到其他平台。
+
+`profile.md` 结构：
+
+```markdown
+# {name} — 完整角色设定
+
+> 生成时间：{ISO-8601}
+> 版本：{version}
+> 生成工具：otome-husband-skill
+
+---
+
+## 基础信息
+
+| 项目 | 设定 |
+|------|------|
+| 名字 | {name} |
+| 年龄 | {age} |
+| 外貌 | {appearance} |
+| 职业/身份 | {occupation} |
+| 关系设定 | {relationship} |
+| 角色原型 | {archetype} |
+| 甜度等级 | {sweet_level} |
+
+## 素材来源
+
+{列出所有参考来源：聊天记录/小说/影视/游戏/动漫/原创}
+{如有聊天风格档案，附上核心指纹}
+
+---
+
+## 性格与人设（Persona）
+
+{persona.md 的完整内容}
+
+---
+
+## 话术与互动（Dialogue）
+
+{dialogue.md 的完整内容}
+
+---
+
+## 使用说明
+
+把这份文件发给任何 AI（ChatGPT / Claude / 其他），
+说「请按照这份设定扮演 {name} 跟我对话」即可。
+
+也可以导入回 otome-husband-skill：
+  /import-husband {这份文件的路径}
+```
+
+**完成后告诉用户**：
 
 ```
 ✅ 老公已落地！档案：`husbands/{slug}/`
 
+📄 完整设定已导出到 `husbands/{slug}/profile.md`
+   这份文件包含了所有设定，你可以：
+   - 发给朋友一起用
+   - 迁移到 ChatGPT / 其他 AI 平台
+   - 备份到云盘
+   - 导入回本 Skill：`/import-husband {路径}`
+
 速通指令：
-  - 扮演模式：直接说 `/{slug}` 或「叫我老公出来」
+  - 扮演模式：`/{slug}` 或「叫 {name} 出来」
   - 改甜度：`/sweet-level {slug} mild|sweet|saccharine`
   - 迭代人设：`/update-husband {slug}`
+  - 导出设定：`/export-husband {slug}`
+  - 导入设定：`/import-husband {文件路径}`
 
-今日心动值已充值——请适度上头，记得喝水。
+今日心动值已充值——请适度上头，记得喝水。💕
 ```
 
 ---
@@ -561,7 +625,31 @@ allowed-tools: Read, Write, Edit, Bash
 | `/list-husbands` | 扫描 `husbands/*/` 目录，读取每个 `meta.json` 的 `name`、`sweet_level`、`updated_at`，列出表格 |
 | `/{slug}` | `Read` `husbands/{slug}/SKILL.md` 并 **按该文件规则** 扮演老公；若不存在，友好报错并提示 `/create-husband` |
 | `/update-husband {slug}` | 进入进化模式（追问要追加还是纠正） |
-| `/delete-husband {slug}` | 二次确认后 `rm -rf husbands/{slug}`（Windows PowerShell 可用 `Remove-Item -Recurse -Force`） |
+| `/export-husband {slug}` | 重新生成 `husbands/{slug}/profile.md`，输出完整设定导出文件 |
+| `/import-husband {文件路径}` | 从一份 `profile.md` 导入老公设定（见下方详细流程） |
+| `/delete-husband {slug}` | 二次确认后删除 `husbands/{slug}/` |
+
+### 导出功能：`/export-husband {slug}`
+
+1. `Read` `husbands/{slug}/persona.md`、`dialogue.md`、`meta.json`
+2. 将所有内容合并到一份自包含的 `profile.md`
+3. `profile.md` 可以：
+   - 直接发给任何 AI 使用（ChatGPT / Claude / Gemini）
+   - 分享给朋友
+   - 上传到云盘备份
+   - 导入回本 Skill
+
+### 导入功能：`/import-husband {文件路径}`
+
+1. `Read` 用户指定的 `profile.md` 文件
+2. 解析其中的 **基础信息**、**Persona**、**Dialogue** 内容
+3. 生成 slug，创建 `husbands/{slug}/` 目录
+4. 拆分写入 `persona.md`、`dialogue.md`、`meta.json`、`SKILL.md`
+5. 向用户展示导入结果并确认
+
+**支持导入其他平台的设定**：
+- 如果用户给的不是标准 `profile.md` 格式，尝试从任何 Markdown/文本中提取角色设定
+- 只要包含足够的性格、说话方式信息，就能构建老公
 
 ---
 
